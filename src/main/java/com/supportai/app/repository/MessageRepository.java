@@ -1,0 +1,19 @@
+package com.supportai.app.repository;
+
+import com.supportai.app.model.Message;
+import com.supportai.app.model.Ticket;
+import com.supportai.app.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface MessageRepository extends JpaRepository<Message, Long> {
+    List<Message> findAllByTicket(Ticket ticket);
+
+    List<Message> findAllBySender(User sender);
+
+    Optional<Message> findFirstByTicketOrderBySentAt(Ticket ticket);
+}
