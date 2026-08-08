@@ -3,7 +3,6 @@ package com.supportai.app.dto.ticket;
 import com.supportai.app.dto.user.UserMapper;
 import com.supportai.app.model.Ticket;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +18,9 @@ public class TicketMapper {
         dto.setTitle(ticket.getTitle());
         dto.setTicketStatus(ticket.getTicketStatus());
         dto.setCustomer(userMapper.toDto(ticket.getCustomer()));
-        dto.setAssignedAgent(userMapper.toDto(ticket.getAssignedAgent()));
+
+        if (ticket.getAssignedAgent() != null)
+         dto.setAssignedAgent(userMapper.toDto(ticket.getAssignedAgent()));
 
         return dto;
     }

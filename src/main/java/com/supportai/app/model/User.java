@@ -5,12 +5,18 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "customers")
-public class User {
+public class User implements UserDetails {
     @GeneratedValue
     @Id
     private Long id;
@@ -18,20 +24,28 @@ public class User {
     @Column(nullable = false, unique = true)
     private String nickname;
 
-    @Pattern(
-            regexp = "[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}",
-            message = "Must be a valid email address")
     @Column(nullable = false,unique = true)
     private String email;
 
-    @Pattern(
-            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).+$",
-            message = "Password must contain upper, lower case letters and a digit"
-    )
     @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
 }

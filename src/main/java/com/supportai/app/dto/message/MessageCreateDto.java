@@ -7,9 +7,6 @@ import lombok.Data;
 
 @Data
 public class MessageCreateDto {
-    @NotNull
-    private Long ticketId;
-
     @NotBlank
     @Size(max = 2000)
     private String content;
