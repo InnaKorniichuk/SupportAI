@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Profile</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      width: 400px;
+      padding: 35px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #555;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+    }
+
+    button,
+    .cancel {
+      flex: 1;
+      padding: 11px;
+      border-radius: 5px;
+      font-size: 15px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+
+    button {
+      border: none;
+      background: #333;
+      color: white;
+    }
+
+    button:hover {
+      background: #555;
+    }
+
+    .cancel {
+      border: 1px solid #ccc;
+      color: #333;
+      background: #f5f5f5;
+    }
+
+    .cancel:hover {
+      background: #e9e9e9;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Edit Profile</h1>
+
+  <form th:action="@{/users/{id}/update(id=${user.id})}"
+        th:object="${userUpdate}"
+        method="post">
+
+    <div>
+      <label for="nickname">Nickname</label>
+      <input type="text"
+             id="nickname"
+             th:field="*{nickname}"
+             required>
+    </div>
+
+    <div>
+      <label for="email">Email</label>
+      <input type="email"
+             id="email"
+             th:field="*{email}"
+             required>
+    </div>
+
+    <div>
+      <label for="password">New Password</label>
+      <input type="password"
+             id="password"
+             th:field="*{password}">
+    </div>
+
+    <button type="submit">Save Changes</button>
+
+  </form>
+
+</div>
+
+</body>
+</html>

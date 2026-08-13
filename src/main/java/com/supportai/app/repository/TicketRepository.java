@@ -18,4 +18,6 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     List<Ticket> findAllByCreatedAtAfter(LocalDateTime createdAtAfter);
 
     List<Ticket> findAllByDescriptionContainingIgnoreCase(String description);
+
+    List<Ticket> findByCustomerId(Long customerId);
 }

@@ -23,17 +23,19 @@ public class UserService {
         this.passwordEncoder=passwordEncoder;
     }
 
-    public UserResponseDto create(UserRegistrationDto dto){
+    public User create(UserRegistrationDto dto){
         User user = userMapper.toEntity(dto);
 
         user.setRole(Role.CUSTOMER);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        return userMapper.toDto(userRepository.save(user));
+        return userRepository.save(user);
     }
 
-    public UserResponseDto read(Long id){
-        return userMapper.toDto(userRepository.findById(id).orElseThrow());
+    public UserResponseDto readByEmail(String email){return userMapper.toDto(userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found")));}
+
+    public UserResponseDto readById(Long id){
+        return userMapper.toDto(userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found")));
     }
 
     public void delete(Long id){
@@ -41,11 +43,12 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public UserResponseDto update(Long userId, UserResponseDto dto){
+    public UserResponseDto update(Long userId, UserRegistrationDto dto){
         User existing = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found"));
 
         existing.setNickname(dto.getNickname());
         existing.setEmail(dto.getEmail());
+        existing.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return userMapper.toDto(userRepository.save(existing));
     }

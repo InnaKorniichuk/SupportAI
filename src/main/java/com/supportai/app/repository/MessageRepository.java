@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    List<Message> findAllByTicket(Ticket ticket);
+    List<Message> findAllByTicketOrderBySentAtAsc(Ticket ticket);
 
     List<Message> findAllBySender(User sender);
 

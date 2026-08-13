@@ -30,7 +30,7 @@ public class MessageService {
         this.userRepository=userRepository;
     }
 
-    public MessageResponseDto create(MessageCreateDto dto, Long userId, Long ticketId){
+    public Message create(MessageCreateDto dto, Long userId, Long ticketId){
         Message message = messageMapper.toEntity(dto);
         Ticket ticket = ticketRepository.findById(ticketId).orElseThrow();
         User user = userRepository.findById(userId).orElseThrow();
@@ -43,7 +43,7 @@ public class MessageService {
         message.setSender(user);
         message.setSentAt(LocalDateTime.now());
 
-        return messageMapper.toDto(messageRepository.save(message));
+        return messageRepository.save(message);
     }
 
     public MessageResponseDto read(Long messageId){
