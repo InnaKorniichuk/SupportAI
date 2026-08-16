@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore HTTP Client environment files
+http-client.private.env.json
+http-client.env.json

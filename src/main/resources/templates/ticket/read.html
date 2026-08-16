@@ -26,8 +26,6 @@
             overflow: hidden;
         }
 
-        /* Ticket information */
-
         .ticket-header {
             padding: 25px 30px;
         }
@@ -46,8 +44,6 @@
         .ticket-info strong {
             color: #555;
         }
-
-        /* Conversation */
 
         .conversation {
             border-top: 1px solid #ddd;
@@ -98,7 +94,40 @@
             padding: 20px 0;
         }
 
-        /* Send message */
+        .ai-assistant {
+            padding: 25px 30px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .ai-assistant h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .ai-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .ai-button-container {
+            text-align: right;
+        }
+
+        .ai-response {
+            margin-top: 20px;
+        }
+
+        .ai-response h3 {
+            margin-bottom: 10px;
+        }
+
+        .ai-response-content {
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
 
         .send-message {
             padding: 25px 30px;
@@ -138,8 +167,6 @@
             font-size: 14px;
         }
 
-        /* Bottom navigation */
-
         .navigation {
             padding: 20px 30px;
             border-top: 1px solid #ddd;
@@ -150,13 +177,12 @@
             text-decoration: none;
         }
     </style>
+
 </head>
 
 <body>
 
 <div class="ticket-container">
-
-    <!-- Ticket information -->
 
     <div class="ticket-header">
 
@@ -200,14 +226,12 @@
             </span>
 
             <strong>Description:</strong>
+
             <span th:text="${ticket.description}"></span>
 
         </div>
 
     </div>
-
-
-    <!-- Conversation -->
 
     <div class="conversation">
 
@@ -248,8 +272,42 @@
 
     </div>
 
+    <div class="ai-assistant">
 
-    <!-- Send message -->
+        <h2>AI Assistant</h2>
+
+        <p class="ai-description">
+            Generate a suggested response based on the current
+            ticket conversation.
+        </p>
+
+        <form th:action="@{/users/{userId}/tickets/{ticketId}/messages/generate-ai(
+                            userId=${ticket.customer.id},
+                            ticketId=${ticket.id})}"
+              method="post">
+
+            <div class="ai-button-container">
+
+                <button type="submit">
+                    Generate AI Response
+                </button>
+
+            </div>
+
+        </form>
+
+        <div th:if="${aiResponse}"
+             class="ai-response">
+
+            <h3>AI Suggested Response</h3>
+
+            <div class="ai-response-content"
+                 th:text="${aiResponse}">
+            </div>
+
+        </div>
+
+    </div>
 
     <div class="send-message">
 
@@ -279,9 +337,6 @@
 
     </div>
 
-
-    <!-- Navigation -->
-
     <div class="navigation">
 
         <a th:href="@{/users/{userId}/read(
@@ -304,4 +359,5 @@
 </div>
 
 </body>
+
 </html>

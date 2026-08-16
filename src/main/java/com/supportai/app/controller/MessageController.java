@@ -4,12 +4,13 @@ import com.supportai.app.dto.message.MessageCreateDto;
 import com.supportai.app.dto.ticket.TicketResponseDto;
 import com.supportai.app.dto.user.UserResponseDto;
 import com.supportai.app.model.Message;
+import com.supportai.app.service.AiService;
 import com.supportai.app.service.MessageService;
 import com.supportai.app.service.TicketService;
 import com.supportai.app.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
@@ -19,13 +20,16 @@ public class MessageController {
     private final MessageService messageService;
     private final TicketService ticketService;
     private final UserService userService;
+    private final AiService aiService;
 
     public MessageController(MessageService messageService,
                              TicketService ticketService,
-                             UserService userService){
+                             UserService userService,
+                             AiService aiService){
         this.messageService = messageService;
         this.ticketService = ticketService;
         this.userService = userService;
+        this.aiService = aiService;
     }
 
     @PostMapping("/create")
@@ -46,5 +50,27 @@ public class MessageController {
 
         return "redirect:/users/" + userId
                 + "/tickets/" + ticketId + "/read";
+    }
+
+    @PostMapping("/generate-ai")
+    public String generateAiResponse(
+            @PathVariable Long userId,
+            @PathVariable Long ticketId,
+            Principal principal,
+            RedirectAttributes redirectAttributes) {
+
+        String aiResponse =
+                aiService.generateResponse(ticketId);
+
+        redirectAttributes.addFlashAttribute(
+                "aiResponse",
+                aiResponse
+        );
+
+        return "redirect:/users/"
+                + userId
+                + "/tickets/"
+                + ticketId
+                + "/read";
     }
 }

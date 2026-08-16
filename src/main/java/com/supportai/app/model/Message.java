@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Message {
-    @GeneratedValue
     @Id
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false, length = 2000)

@@ -32,7 +32,8 @@ public class TicketService {
     }
 
     public Ticket create(TicketCreateDto dto, Long customerId, Long agentId){
-        User customer = userRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException("Ticket not found"));
+        User customer = userRepository.findById(customerId)
+                .orElseThrow(() -> new NoSuchElementException("Ticket not found"));
 
         Ticket ticket = ticketMapper.toEntity(dto);
         ticket.setCreatedAt(LocalDateTime.now());
@@ -48,13 +49,15 @@ public class TicketService {
     }
 
     public TicketResponseDto readById(Long ticketId){
-        Ticket ticket = ticketRepository.findById(ticketId).orElseThrow(() -> new NoSuchElementException("Ticket not found"));
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new NoSuchElementException("Ticket not found"));
 
         return ticketMapper.toDto(ticket);
     }
 
     public TicketResponseDto changeStatus(Long ticketId, TicketStatus status){
-        Ticket ticket = ticketRepository.findById(ticketId).orElseThrow(() -> new NoSuchElementException("Ticket not found"));
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new NoSuchElementException("Ticket not found"));
         ticket.setTicketStatus(status);
 
         ticketRepository.save(ticket);
@@ -75,12 +78,14 @@ public class TicketService {
     }
 
     public void delete(Long ticketId){
-        Ticket ticket = ticketRepository.findById(ticketId).orElseThrow(() -> new NoSuchElementException("Ticket not found"));
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new NoSuchElementException("Ticket not found"));
         ticketRepository.delete(ticket);
     }
 
     public TicketResponseDto update(Long ticketId, TicketUpdateDto dto){
-        Ticket existing = ticketRepository.findById(ticketId).orElseThrow(() -> new NoSuchElementException("Ticket not found"));
+        Ticket existing = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new NoSuchElementException("Ticket not found"));
 
         existing.setTicketStatus(dto.getTicketStatus());
 

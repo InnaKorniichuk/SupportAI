@@ -3,7 +3,6 @@ package com.supportai.app.controller;
 import com.supportai.app.dto.ticket.TicketResponseDto;
 import com.supportai.app.dto.user.UserRegistrationDto;
 import com.supportai.app.dto.user.UserResponseDto;
-import com.supportai.app.model.Role;
 import com.supportai.app.model.User;
 import com.supportai.app.service.TicketService;
 import com.supportai.app.service.UserService;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.security.Principal;
 import java.util.List;
 
@@ -91,13 +89,16 @@ public class UserController {
         String email = principal.getName();
 
         UserResponseDto currentUser = userService.readByEmail(email);
+        boolean isOwner = currentUser.getId().equals(id);
+        boolean isAgent = currentUser.getRole().equals("AGENT");
+        boolean isAdmin = currentUser.getRole().equals("ADMIN");
 
-        if (!currentUser.getId().equals(id)
-                && !currentUser.getRole().equals(Role.AGENT))
+        if (!isOwner && !isAgent && !isAdmin) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
                     "You are not allowed to view this user's profile"
             );
+        }
 
         UserResponseDto user = userService.readById(id);
 
@@ -114,7 +115,7 @@ public class UserController {
     public String delete(@PathVariable Long id){
         userService.delete(id);
 
-        return "";
+        return "redirect:/users/all";
     }
 
     @GetMapping("/{id}/update")
@@ -145,5 +146,16 @@ public class UserController {
         userService.update(id, dto);
 
         return "redirect:/users/" + id + "/read";
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String getAllUsers(Model model) {
+
+        List<UserResponseDto> users = userService.findAll();
+
+        model.addAttribute("users", users);
+
+        return "user/all";
     }
 }

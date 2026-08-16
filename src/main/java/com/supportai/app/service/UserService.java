@@ -9,6 +9,7 @@ import com.supportai.app.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -17,7 +18,9 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder){
+    public UserService(UserRepository userRepository,
+                       UserMapper userMapper,
+                       PasswordEncoder passwordEncoder){
         this.userRepository=userRepository;
         this.userMapper=userMapper;
         this.passwordEncoder=passwordEncoder;
@@ -32,24 +35,37 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public UserResponseDto readByEmail(String email){return userMapper.toDto(userRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("User not found")));}
+    public UserResponseDto readByEmail(String email){
+        return userMapper.toDto(userRepository.findByEmail(email)
+            .orElseThrow(() -> new NoSuchElementException("User not found")));
+    }
 
     public UserResponseDto readById(Long id){
-        return userMapper.toDto(userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found")));
+        return userMapper.toDto(userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found")));
     }
 
     public void delete(Long id){
-        User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("User not found"));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
         userRepository.delete(user);
     }
 
     public UserResponseDto update(Long userId, UserRegistrationDto dto){
-        User existing = userRepository.findById(userId).orElseThrow(() -> new NoSuchElementException("User not found"));
+        User existing = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException("User not found"));
 
         existing.setNickname(dto.getNickname());
         existing.setEmail(dto.getEmail());
         existing.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return userMapper.toDto(userRepository.save(existing));
+    }
+
+    public List<UserResponseDto> findAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
     }
 }

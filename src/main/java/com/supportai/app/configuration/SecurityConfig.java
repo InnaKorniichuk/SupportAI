@@ -23,9 +23,12 @@ import org.springframework.security.web.context.SecurityContextRepository;
 public class SecurityConfig {
 
     private final UserRepository userRepository;
+    private final CustomAuthenticationSuccessHandler successHandler;
 
-    public SecurityConfig(UserRepository userRepository) {
+    public SecurityConfig(UserRepository userRepository,
+                          CustomAuthenticationSuccessHandler successHandler) {
         this.userRepository = userRepository;
+        this.successHandler = successHandler;
     }
 
     @Bean
@@ -81,32 +84,38 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> auth
-//                .requestMatchers(
-//                        "/login",
-//                        "/users/create"
-//                ).permitAll() .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
+
                 .authorizeHttpRequests(auth -> auth
-                        // Anyone can register
-                        .requestMatchers("/users/create", "/users/login").permitAll()
 
-                        // Reading profiles requires authentication
-                        .requestMatchers("/users/*/read").authenticated()
+                        .requestMatchers(
+                                "/users/create",
+                                "/users/login"
+                        ).permitAll()
 
-                        // Everything else requires authentication
-                        .anyRequest().authenticated()
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers("/agent/**")
+                        .hasRole("AGENT")
+
+                        .requestMatchers("/users/*/read")
+                        .authenticated()
+
+                        .anyRequest()
+                        .authenticated()
                 )
+
                 .formLogin(form -> form
                         .loginPage("/users/login")
-                        .successHandler(authenticationSuccessHandler(userRepository))
-                        .failureUrl("/login?error")
+                        .successHandler(successHandler)
+                        .failureUrl("/users/login?error")
                         .permitAll()
                 )
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/users/login?logout")
                         .permitAll()
                 );
 

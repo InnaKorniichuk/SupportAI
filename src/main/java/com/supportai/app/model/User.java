@@ -1,8 +1,6 @@
 package com.supportai.app.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,8 +15,8 @@ import java.util.List;
 @Setter
 @Table(name = "customers")
 public class User implements UserDetails {
-    @GeneratedValue
     @Id
+    @GeneratedValue
     private Long id;
 
     @Column(nullable = false, unique = true)

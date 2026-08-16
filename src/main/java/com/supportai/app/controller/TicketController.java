@@ -5,7 +5,6 @@ import com.supportai.app.dto.ticket.TicketCreateDto;
 import com.supportai.app.dto.ticket.TicketDetailsDto;
 import com.supportai.app.dto.ticket.TicketResponseDto;
 import com.supportai.app.dto.user.UserResponseDto;
-import com.supportai.app.model.Role;
 import com.supportai.app.model.Ticket;
 import com.supportai.app.model.TicketStatus;
 import com.supportai.app.service.TicketService;
@@ -61,7 +60,7 @@ public class TicketController {
         TicketDetailsDto ticket = ticketService.getDetails(ticketId);
 
         if (!ticket.getCustomer().getId().equals(currentUser.getId())
-                && !currentUser.getRole().equals(Role.AGENT)) {
+                && !currentUser.getRole().equals("AGENT")) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
                     "You are not allowed to view this ticket"
@@ -84,7 +83,7 @@ public class TicketController {
 
         TicketResponseDto ticketResponseDto = ticketService.readById(id);
         if (!ticketResponseDto.getCustomer().getId().equals(currentUser.getId())
-                && !currentUser.getRole().equals(Role.AGENT)) {
+                && !currentUser.getRole().equals("AGENT")) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
                     "You are not allowed to delete this ticket"
