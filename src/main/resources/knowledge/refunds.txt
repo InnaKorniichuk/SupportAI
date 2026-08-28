@@ -1,0 +1,12 @@
+REFUNDS
+
+Customers can request a refund within 30 days of their purchase.
+
+The support agent should check the customer's order and confirm that the purchase is eligible for a refund.
+
+If the purchase is eligible, the refund request can be processed.
+
+Refund processing may take several business days depending on the payment provider.
+
+If a purchase is older than 30 days, the agent should explain that it is outside the
+standard refund period and escalate the request if necessary.

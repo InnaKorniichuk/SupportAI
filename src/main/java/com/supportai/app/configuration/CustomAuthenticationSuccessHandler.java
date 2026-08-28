@@ -13,9 +13,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class CustomAuthenticationSuccessHandler
-        implements AuthenticationSuccessHandler {
-
+public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     private final UserRepository userRepository;
 
     public CustomAuthenticationSuccessHandler(UserRepository userRepository) {

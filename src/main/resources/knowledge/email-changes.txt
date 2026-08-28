@@ -1,0 +1,13 @@
+EMAIL CHANGES
+
+Customers who want to change the email address associated with
+their account should contact customer support.
+
+The support agent should verify the customer's identity before changing the email address.
+
+After the email address is changed, the customer may need to verify
+the new email address before they can use it for account notifications or password recovery.
+
+If the customer no longer has access to their old email address,
+additional identity verification may be required.
+

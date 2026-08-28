@@ -1,0 +1,16 @@
+ACCOUNT ACCESS
+
+If a customer enters an incorrect password multiple times, their account
+may be temporarily locked for security reasons.
+
+Customers should wait until the temporary lock expires before trying again.
+They should not repeatedly attempt to log in during the lock period.
+
+If the account remains locked or the customer cannot access it after waiting,
+they should contact customer support.
+
+Support agents must verify the customer's identity before making changes to account security settings.
+
+Support agents must never ask customers to provide their current password,
+password reset code, or full authentication credentials.
+

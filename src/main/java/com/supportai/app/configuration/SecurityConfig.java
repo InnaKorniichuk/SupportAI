@@ -21,7 +21,6 @@ import org.springframework.security.web.context.SecurityContextRepository;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     private final UserRepository userRepository;
     private final CustomAuthenticationSuccessHandler successHandler;
 
