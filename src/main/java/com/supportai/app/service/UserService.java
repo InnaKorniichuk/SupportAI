@@ -45,9 +45,18 @@ public class UserService {
                 .orElseThrow(() -> new NoSuchElementException("User not found")));
     }
 
-    public void delete(Long id){
+    public void delete(Long id, String currentUserEmail) {
+
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found"));
+                .orElseThrow(() ->
+                        new NoSuchElementException("User not found"));
+
+        if (user.getEmail().equals(currentUserEmail)) {
+            throw new IllegalArgumentException(
+                    "You cannot delete your own account"
+            );
+        }
+
         userRepository.delete(user);
     }
 
@@ -64,6 +73,13 @@ public class UserService {
 
     public List<UserResponseDto> findAll() {
         return userRepository.findAll()
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+
+    public List<UserResponseDto> findAgents() {
+        return userRepository.findByRole(Role.AGENT)
                 .stream()
                 .map(userMapper::toDto)
                 .toList();

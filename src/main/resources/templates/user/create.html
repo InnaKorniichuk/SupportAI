@@ -1,44 +1,124 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create User</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #2f3640;
+        }
+
+        .container {
+            background-color: white;
+            width: 400px;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin: 0 0 25px;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #dcdde1;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #273c75;
+        }
+
+        button {
+            width: 100%;
+            padding: 11px;
+            margin-top: 5px;
+            background-color: #273c75;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #192a56;
+        }
+    </style>
+
 </head>
+
 <body>
 
-<h1>Create Account</h1>
+<div class="container">
 
-<form th:action="@{/users/create}"
-      th:object="${user}"
-      method="post">
+    <h1>Create Account</h1>
 
-    <div>
-        <label for="nickname">Nickname:</label>
-        <input type="text"
-               id="nickname"
-               th:field="*{nickname}"
-               required>
-    </div>
+    <form th:action="@{/users/create}"
+          th:object="${user}"
+          method="post">
 
-    <div>
-        <label for="email">Email:</label>
-        <input type="email"
-               id="email"
-               th:field="*{email}"
-               required>
-    </div>
+        <div class="form-group">
+            <label for="nickname">Nickname</label>
+            <input type="text"
+                   id="nickname"
+                   th:field="*{nickname}"
+                   required>
+        </div>
 
-    <div>
-        <label for="password">Password:</label>
-        <input type="password"
-               id="password"
-               th:field="*{password}"
-               required>
-    </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email"
+                   id="email"
+                   th:field="*{email}"
+                   required>
+        </div>
 
-    <button type="submit">Create Account</button>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password"
+                   id="password"
+                   th:field="*{password}"
+                   required>
+        </div>
 
-</form>
+        <button type="submit">Create Account</button>
+
+    </form>
+
+</div>
 
 </body>
 </html>

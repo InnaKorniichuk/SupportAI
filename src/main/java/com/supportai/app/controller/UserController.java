@@ -9,7 +9,6 @@ import com.supportai.app.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -107,15 +106,10 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("tickets", tickets);
 
+        if(isAdmin)
+            return "admin/user";
+
         return "user/read";
-    }
-
-    @PostMapping("/{id}/delete")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String delete(@PathVariable Long id){
-        userService.delete(id);
-
-        return "redirect:/users/all";
     }
 
     @GetMapping("/{id}/update")
@@ -141,21 +135,9 @@ public class UserController {
 
     @PostMapping("/{id}/update")
     public String update(@PathVariable Long id,
-                         @ModelAttribute("userUpdate") UserRegistrationDto dto,
-                         Model model){
+                         @ModelAttribute("userUpdate") UserRegistrationDto dto){
         userService.update(id, dto);
 
         return "redirect:/users/" + id + "/read";
-    }
-
-    @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String getAllUsers(Model model) {
-
-        List<UserResponseDto> users = userService.findAll();
-
-        model.addAttribute("users", users);
-
-        return "user/all";
     }
 }

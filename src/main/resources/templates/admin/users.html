@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>Manage Users</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f6fa;
+      margin: 0;
+      padding: 40px;
+      color: #2f3640;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 28px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+    }
+
+    th {
+      background-color: #f1f2f6;
+      text-align: left;
+      padding: 14px;
+      font-size: 14px;
+      color: #57606f;
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid #e5e5e5;
+      vertical-align: middle;
+    }
+
+    tr:hover {
+      background-color: #fafafa;
+    }
+
+    form {
+      margin: 0;
+    }
+
+    button {
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      background-color: #e84118;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #c23616;
+    }
+
+    a {
+      color: #273c75;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 5px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Manage Users</h1>
+
+  <table>
+
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nickname</th>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr th:each="user : ${users}">
+
+      <td th:text="${user.id}"></td>
+
+      <td>
+        <a th:href="@{/users/{id}/read(id=${user.id})}"
+           th:text="${user.nickname}">
+        </a>
+      </td>
+
+      <td th:text="${user.email}"></td>
+
+      <td th:text="${user.role}"></td>
+
+      <td>
+        <form th:action="@{/admin/users/{id}/delete(id=${user.id})}"
+              method="post">
+
+          <button type="submit">
+            Delete
+          </button>
+
+        </form>
+      </td>
+
+    </tr>
+
+    </tbody>
+
+  </table>
+
+  <a class="back-link" href="/admin/dashboard">
+    Back to Dashboard
+  </a>
+
+</div>
+
+</body>
+
+</html>

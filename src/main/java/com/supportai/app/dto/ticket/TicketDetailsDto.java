@@ -15,9 +15,7 @@ public class TicketDetailsDto {
     private String description;
     private TicketStatus ticketStatus;
     private LocalDateTime createdAt;
-
     private UserResponseDto customer;
     private UserResponseDto assignedAgent;
-
     private List<MessageResponseDto> messages;
 }

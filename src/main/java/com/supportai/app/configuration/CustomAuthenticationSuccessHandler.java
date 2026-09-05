@@ -34,12 +34,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                         new UsernameNotFoundException("User not found"));
 
         if (user.getRole().equals(Role.ADMIN)) {
-            response.sendRedirect("/users/all");
+            response.sendRedirect("/admin/dashboard");
             return;
         }
 
         if (user.getRole().equals(Role.AGENT)) {
-            response.sendRedirect("/agent");
+            response.sendRedirect("/agent/dashboard");
             return;
         }
 

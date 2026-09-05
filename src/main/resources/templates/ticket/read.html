@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -11,49 +12,60 @@
         }
 
         body {
-            margin: 0;
-            padding: 40px 20px;
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 40px;
+            color: #2f3640;
         }
 
-        .ticket-container {
-            max-width: 800px;
+        .container {
+            max-width: 900px;
             margin: 0 auto;
             background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
         }
 
-        .ticket-header {
-            padding: 25px 30px;
+        h1 {
+            margin: 0 0 25px;
+            font-size: 28px;
         }
 
-        .ticket-header h1 {
-            margin-top: 0;
-            margin-bottom: 25px;
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 18px;
+            font-size: 21px;
+        }
+
+        h3 {
+            margin-bottom: 10px;
         }
 
         .ticket-info {
+            background-color: #f1f2f6;
+            padding: 20px;
+            border-radius: 10px;
             display: grid;
             grid-template-columns: 120px 1fr;
             row-gap: 12px;
+            margin-bottom: 25px;
         }
 
         .ticket-info strong {
-            color: #555;
+            color: #57606f;
+        }
+
+        .conversation,
+        .ai-assistant,
+        .send-message {
+            margin-top: 25px;
         }
 
         .conversation {
-            border-top: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
-            padding: 25px 30px;
-        }
-
-        .conversation h2 {
-            margin-top: 0;
-            margin-bottom: 25px;
+            border-top: 1px solid #e5e5e5;
+            padding-top: 5px;
         }
 
         .message {
@@ -72,16 +84,16 @@
         }
 
         .message-sender {
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .message-date {
-            color: #888;
+            color: #57606f;
             font-size: 13px;
         }
 
         .message-content {
-            background-color: #f1f1f1;
+            background-color: #f1f2f6;
             padding: 12px 15px;
             border-radius: 8px;
             line-height: 1.5;
@@ -89,23 +101,24 @@
         }
 
         .no-messages {
-            color: #888;
-            text-align: center;
-            padding: 20px 0;
+            background-color: #f1f2f6;
+            padding: 18px;
+            border-radius: 8px;
+            color: #57606f;
         }
 
         .ai-assistant {
-            padding: 25px 30px;
-            border-bottom: 1px solid #ddd;
+            background-color: #f1f2f6;
+            padding: 20px;
+            border-radius: 10px;
         }
 
         .ai-assistant h2 {
             margin-top: 0;
-            margin-bottom: 15px;
         }
 
         .ai-description {
-            color: #666;
+            color: #57606f;
             margin-bottom: 15px;
         }
 
@@ -117,12 +130,8 @@
             margin-top: 20px;
         }
 
-        .ai-response h3 {
-            margin-bottom: 10px;
-        }
-
         .ai-response-content {
-            background-color: #f1f1f1;
+            background-color: white;
             padding: 15px;
             border-radius: 8px;
             line-height: 1.5;
@@ -130,20 +139,16 @@
         }
 
         .send-message {
-            padding: 25px 30px;
-        }
-
-        .send-message h2 {
-            margin-top: 0;
-            margin-bottom: 15px;
+            border-top: 1px solid #e5e5e5;
+            padding-top: 5px;
         }
 
         textarea {
             width: 100%;
-            min-height: 100px;
+            min-height: 120px;
             padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            border: 1px solid #dcdde1;
+            border-radius: 6px;
             resize: vertical;
             font-family: Arial, sans-serif;
             font-size: 14px;
@@ -151,7 +156,22 @@
 
         textarea:focus {
             outline: none;
-            border-color: #888;
+            border-color: #273c75;
+        }
+
+        button {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            background-color: #273c75;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: #192a56;
         }
 
         .send-button-container {
@@ -159,22 +179,65 @@
             margin-top: 12px;
         }
 
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
         .navigation {
-            padding: 20px 30px;
-            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e5e5;
         }
 
         .navigation a {
-            margin-right: 20px;
+            color: #273c75;
             text-decoration: none;
+            font-weight: 600;
+        }
+
+        .navigation a:hover {
+            text-decoration: underline;
+        }
+
+        .logout button {
+            background-color: #57606f;
+        }
+
+        .logout button:hover {
+            background-color: #353b48;
+        }
+
+        @media (max-width: 750px) {
+            body {
+                padding: 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .ticket-info {
+                grid-template-columns: 1fr;
+            }
+
+            .message-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .navigation {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .navigation a {
+                text-align: center;
+            }
+
+            .ai-button-container,
+            .send-button-container {
+                text-align: left;
+            }
         }
     </style>
 
@@ -182,56 +245,53 @@
 
 <body>
 
-<div class="ticket-container">
+<div class="container">
 
-    <div class="ticket-header">
+    <h1>
+        Ticket #
+        <span th:text="${ticket.id}"></span>
+    </h1>
 
-        <h1>
-            Ticket #
-            <span th:text="${ticket.id}"></span>
-        </h1>
+    <div class="ticket-info">
 
-        <div class="ticket-info">
+        <strong>Title:</strong>
+        <span th:text="${ticket.title}"></span>
 
-            <strong>Title:</strong>
-            <span th:text="${ticket.title}"></span>
+        <strong>Status:</strong>
+        <span th:text="${ticket.ticketStatus}"></span>
 
-            <strong>Status:</strong>
-            <span th:text="${ticket.ticketStatus}"></span>
+        <strong>Created:</strong>
+        <span th:text="${#temporals.format(
+                ticket.createdAt,
+                'dd.MM.yyyy HH:mm')}">
+        </span>
 
-            <strong>Created:</strong>
-            <span th:text="${#temporals.format(
-                    ticket.createdAt,
-                    'dd.MM.yyyy HH:mm')}">
-            </span>
+        <strong>Customer:</strong>
 
-            <strong>Customer:</strong>
+        <span th:if="${ticket.customer != null}"
+              th:text="${ticket.customer.nickname}">
+        </span>
 
-            <span th:if="${ticket.customer != null}"
-                  th:text="${ticket.customer.nickname}">
-            </span>
+        <span th:if="${ticket.customer == null}">
+            -
+        </span>
 
-            <span th:if="${ticket.customer == null}">
-                -
-            </span>
+        <strong>Agent:</strong>
 
-            <strong>Agent:</strong>
+        <span th:if="${ticket.assignedAgent != null}"
+              th:text="${ticket.assignedAgent.nickname}">
+        </span>
 
-            <span th:if="${ticket.assignedAgent != null}"
-                  th:text="${ticket.assignedAgent.nickname}">
-            </span>
+        <span th:if="${ticket.assignedAgent == null}">
+            Not assigned
+        </span>
 
-            <span th:if="${ticket.assignedAgent == null}">
-                Not assigned
-            </span>
+        <strong>Description:</strong>
 
-            <strong>Description:</strong>
-
-            <span th:text="${ticket.description}"></span>
-
-        </div>
+        <span th:text="${ticket.description}"></span>
 
     </div>
+
 
     <div class="conversation">
 
@@ -272,6 +332,7 @@
 
     </div>
 
+
     <div class="ai-assistant">
 
         <h2>AI Assistant</h2>
@@ -309,6 +370,7 @@
 
     </div>
 
+
     <div class="send-message">
 
         <h2>Send Message</h2>
@@ -337,6 +399,7 @@
 
     </div>
 
+
     <div class="navigation">
 
         <a th:href="@{/users/{userId}/read(
@@ -344,9 +407,9 @@
             ← Back to Profile
         </a>
 
-        <form th:action="@{/logout}"
-              method="post"
-              style="display: inline;">
+        <form class="logout"
+              th:action="@{/logout}"
+              method="post">
 
             <button type="submit">
                 Logout

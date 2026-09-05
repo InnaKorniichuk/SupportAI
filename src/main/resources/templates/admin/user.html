@@ -4,7 +4,6 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
 
     <style>
@@ -80,13 +79,6 @@
             background-color: #fafafa;
         }
 
-        .actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
         a {
             color: #273c75;
             text-decoration: none;
@@ -97,50 +89,32 @@
             text-decoration: underline;
         }
 
-        select {
-            padding: 8px 10px;
-            border: 1px solid #dcdde1;
-            border-radius: 6px;
-            background-color: white;
-            font-size: 14px;
-            cursor: pointer;
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        button {
+        .read-button {
+            display: inline-block;
             padding: 8px 14px;
-            border: none;
-            border-radius: 6px;
             background-color: #273c75;
             color: white;
+            border-radius: 6px;
+            text-decoration: none;
             font-size: 14px;
-            cursor: pointer;
-            font-weight: 600;
         }
 
-        button:hover {
+        .read-button:hover {
             background-color: #192a56;
+            text-decoration: none;
         }
 
-        .delete-button {
-            background-color: #e84118;
-        }
-
-        .delete-button:hover {
-            background-color: #c23616;
-        }
-
-        .ticket-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .status-form {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
+        .empty {
+            background-color: #f1f2f6;
+            padding: 18px;
+            border-radius: 8px;
+            color: #57606f;
         }
 
         .navigation {
@@ -169,21 +143,22 @@
         }
 
         .logout button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
             background-color: #57606f;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 600;
         }
 
         .logout button:hover {
             background-color: #353b48;
         }
 
-        .empty {
-            background-color: #f1f2f6;
-            padding: 18px;
-            border-radius: 8px;
-            color: #57606f;
-        }
-
         @media (max-width: 750px) {
+
             body {
                 padding: 20px;
             }
@@ -235,15 +210,21 @@
 
     </div>
 
+
     <h2>Tickets</h2>
 
-    <div th:if="${#lists.isEmpty(tickets)}" class="empty">
-        <p>No tickets found.</p>
+    <div th:if="${#lists.isEmpty(tickets)}"
+         class="empty">
+
+        <p>No tickets found for this user.</p>
+
     </div>
+
 
     <table th:unless="${#lists.isEmpty(tickets)}">
 
         <thead>
+
         <tr>
             <th>ID</th>
             <th>Title</th>
@@ -251,6 +232,7 @@
             <th>Created At</th>
             <th>Action</th>
         </tr>
+
         </thead>
 
         <tbody>
@@ -263,33 +245,19 @@
 
             <td th:text="${ticket.ticketStatus}"></td>
 
-            <td th:text="${#temporals.format(ticket.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
+            <td th:text="${#temporals.format(
+                    ticket.createdAt,
+                    'dd.MM.yyyy HH:mm')}">
+            </td>
 
             <td>
 
-                <div class="ticket-actions">
-
-                    <a th:href="@{/users/{userId}/tickets/{ticketId}/read(
-                        userId=${user.id},
-                        ticketId=${ticket.id})}">
-                        Read
-                    </a>
-
-                    <form th:action="@{/users/{userId}/tickets/{ticketId}/delete(
-                            userId=${user.id},
-                            ticketId=${ticket.id})}"
-                          method="post"
-                          style="display: inline;">
-
-                        <button type="submit"
-                                class="delete-button"
-                                onclick="return confirm('Are you sure you want to delete this ticket?');">
-                            Delete
-                        </button>
-
-                    </form>
-
-                </div>
+                <a class="read-button"
+                   th:href="@{/users/{userId}/tickets/{ticketId}/read(
+                       userId=${user.id},
+                       ticketId=${ticket.id})}">
+                    Read
+                </a>
 
             </td>
 
@@ -299,21 +267,25 @@
 
     </table>
 
+
     <div class="navigation">
 
         <a class="primary"
-           th:href="@{/users/{userId}/tickets/create(userId=${user.id})}">
-            Create Ticket
-        </a>
-
-        <a th:href="@{/users/{id}/update(id=${user.id})}">
-            Edit Profile
+           href="/admin/users">
+            ← Back to Users
         </a>
 
     </div>
 
-    <form class="logout" th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
+
+    <form class="logout"
+          th:action="@{/logout}"
+          method="post">
+
+        <button type="submit">
+            Logout
+        </button>
+
     </form>
 
 </div>
@@ -321,3 +293,4 @@
 </body>
 
 </html>
+

@@ -10,7 +10,6 @@ import com.supportai.app.repository.MessageRepository;
 import com.supportai.app.repository.TicketRepository;
 import com.supportai.app.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 
 @Service

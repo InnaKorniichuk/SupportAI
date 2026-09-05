@@ -6,11 +6,9 @@ import com.supportai.app.dto.ticket.TicketDetailsDto;
 import com.supportai.app.dto.ticket.TicketResponseDto;
 import com.supportai.app.dto.user.UserResponseDto;
 import com.supportai.app.model.Ticket;
-import com.supportai.app.model.TicketStatus;
 import com.supportai.app.service.TicketService;
 import com.supportai.app.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,17 +29,26 @@ public class TicketController {
     }
 
     @GetMapping("/create")
-    public String create(@PathVariable("userId") Long userId, Model model) {
+    public String create(@PathVariable("userId") Long userId,
+                         Model model) {
+
         model.addAttribute("ticket", new TicketCreateDto());
         model.addAttribute("id", userId);
+        model.addAttribute("agents", userService.findAgents());
 
         return "ticket/create";
     }
 
     @PostMapping("/create")
     public String create(@ModelAttribute("ticket") TicketCreateDto ticketDto,
-                         @PathVariable("userId") Long userId){
-        Ticket ticket = ticketService.create(ticketDto, userId, 2L);
+                         @PathVariable("userId") Long userId,
+                         @RequestParam Long agentId) {
+
+        Ticket ticket = ticketService.create(
+                ticketDto,
+                userId,
+                agentId
+        );
 
         return "redirect:/users/" + userId + "/read";
     }
@@ -60,7 +67,8 @@ public class TicketController {
         TicketDetailsDto ticket = ticketService.getDetails(ticketId);
 
         if (!ticket.getCustomer().getId().equals(currentUser.getId())
-                && !currentUser.getRole().equals("AGENT")) {
+                && !currentUser.getRole().equals("AGENT")
+                && !currentUser.getRole().equals("ADMIN")) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
                     "You are not allowed to view this ticket"
@@ -91,16 +99,6 @@ public class TicketController {
         }
 
         ticketService.delete(id);
-
-        return "redirect:/users/" + userId +"/read";
-    }
-
-    @GetMapping("/{id}/changestatus")
-    @PreAuthorize("hasRole('AGENT')")
-    public String changeStatus(@PathVariable Long id,
-                               @PathVariable Long userId,
-                               @RequestParam TicketStatus status){
-        ticketService.changeStatus(id,status);
 
         return "redirect:/users/" + userId +"/read";
     }

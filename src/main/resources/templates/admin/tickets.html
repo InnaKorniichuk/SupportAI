@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>All Tickets</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 40px;
+            color: #2f3640;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        th {
+            background-color: #f1f2f6;
+            text-align: left;
+            padding: 14px;
+            font-size: 14px;
+            color: #57606f;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e5e5e5;
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background-color: #fafafa;
+        }
+
+        select {
+            padding: 8px 10px;
+            border: 1px solid #dcdde1;
+            border-radius: 6px;
+            background-color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button {
+            padding: 8px 14px;
+            margin-left: 6px;
+            border: none;
+            border-radius: 6px;
+            background-color: #273c75;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #192a56;
+        }
+
+        a {
+            color: #273c75;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 5px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>All Tickets</h1>
+
+    <table>
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Customer</th>
+            <th>Status</th>
+            <th>Change Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr th:each="ticket : ${tickets}">
+
+            <td th:text="${ticket.id}"></td>
+
+            <td th:text="${ticket.title}"></td>
+
+            <td th:text="${ticket.customer.nickname}"></td>
+
+            <td th:text="${ticket.ticketStatus}"></td>
+
+            <td>
+                <form th:action="@{/admin/ticket/{id}/changestatus(id=${ticket.id})}"
+                      method="post">
+
+                    <select name="status">
+                        <option value="OPEN"
+                                th:selected="${ticket.ticketStatus.name() == 'OPEN'}">
+                            Open
+                        </option>
+
+                        <option value="IN_PROGRESS"
+                                th:selected="${ticket.ticketStatus.name() == 'IN_PROGRESS'}">
+                            In Progress
+                        </option>
+
+                        <option value="CLOSED"
+                                th:selected="${ticket.ticketStatus.name() == 'CLOSED'}">
+                            Closed
+                        </option>
+                    </select>
+
+                    <button type="submit">Change</button>
+                </form>
+            </td>
+
+            <td>
+                <a th:href="@{/users/{userId}/tickets/{ticketId}/read(
+                userId=${ticket.customer.id},
+                ticketId=${ticket.id}
+            )}">
+                    View
+                </a>
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <a class="back-link" href="/admin/dashboard">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+
+</html>

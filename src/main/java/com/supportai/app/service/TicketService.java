@@ -9,7 +9,6 @@ import com.supportai.app.repository.MessageRepository;
 import com.supportai.app.repository.TicketRepository;
 import com.supportai.app.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -37,11 +36,14 @@ public class TicketService {
 
         Ticket ticket = ticketMapper.toEntity(dto);
         ticket.setCreatedAt(LocalDateTime.now());
+
         if (agentId != null) {
             ticket.setAssignedAgent(
-                    userRepository.findById(agentId).orElseThrow(() -> new NoSuchElementException("Agent not found"))
+                    userRepository.findById(agentId)
+                            .orElseThrow(() -> new NoSuchElementException("Agent not found"))
             );
         }
+
         ticket.setCustomer(customer);
         ticket.setTicketStatus(TicketStatus.OPEN);
 
@@ -101,6 +103,21 @@ public class TicketService {
 
     public List<TicketResponseDto> findByCustomerId(Long customerId) {
         return ticketRepository.findByCustomerId(customerId)
+                .stream()
+                .map(ticketMapper::toDto)
+                .toList();
+    }
+
+    public List<TicketResponseDto> findAll() {
+
+        return ticketRepository.findAll()
+                .stream()
+                .map(ticketMapper::toDto)
+                .toList();
+    }
+
+    public List<TicketResponseDto> findByAssignedAgentId(Long agentId) {
+        return ticketRepository.findAllByAssignedAgentId(agentId)
                 .stream()
                 .map(ticketMapper::toDto)
                 .toList();

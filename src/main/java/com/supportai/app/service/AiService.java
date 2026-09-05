@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class AiService {
-
     private final ChatClient chatClient;
     private final TicketService ticketService;
 

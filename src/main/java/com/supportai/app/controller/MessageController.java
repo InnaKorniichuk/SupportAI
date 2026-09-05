@@ -1,9 +1,7 @@
 package com.supportai.app.controller;
 
 import com.supportai.app.dto.message.MessageCreateDto;
-import com.supportai.app.dto.ticket.TicketResponseDto;
 import com.supportai.app.dto.user.UserResponseDto;
-import com.supportai.app.model.Message;
 import com.supportai.app.service.AiService;
 import com.supportai.app.service.MessageService;
 import com.supportai.app.service.TicketService;

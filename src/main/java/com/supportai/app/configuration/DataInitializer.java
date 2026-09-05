@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class DataInitializer {
     @Bean
-    CommandLineRunner createAdmin(
+    CommandLineRunner createUsers(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder) {
 
@@ -29,6 +29,20 @@ public class DataInitializer {
                 admin.setRole(Role.ADMIN);
 
                 userRepository.save(admin);
+            }
+
+            if (userRepository.findByEmail("agent@gmail.com").isEmpty()) {
+
+                User agent = new User();
+
+                agent.setNickname("agent");
+                agent.setEmail("agent@gmail.com");
+                agent.setPassword(
+                        passwordEncoder.encode("agent123")
+                );
+                agent.setRole(Role.AGENT);
+
+                userRepository.save(agent);
             }
         };
     }
